@@ -1,0 +1,15 @@
+[package]
+name = "quest2-deployer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.89"
+console = "0.15.8"
+dialoguer = "0.11.0"
+futures-util = "0.3.31"
+indicatif = {version = "0.17.8", features = ["tokio"]}
+reqwest = { version = "0.12.8", features = ["stream"] }
+strfmt = "0.2.4"
+tokio = { version = "1.40.0", features = ["full"]}
+tokio-util = "0.7.12"
