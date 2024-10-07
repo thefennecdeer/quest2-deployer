@@ -1,8 +1,7 @@
 use console::Style;
 use dialoguer::{theme::ColorfulTheme, Confirm, Input};
-
-
-mod io;
+use std::env::current_dir;
+use quest2deployer::{io,zip,adb};
 
 #[derive(Debug)]
 #[allow(dead_code)]
@@ -40,12 +39,22 @@ async fn setup_adbtools() -> Result<bool, anyhow::Error> {
         values_style: Style::new().yellow().dim(),
         ..ColorfulTheme::default()
     };
-    
+
+    let adb_result = adb::check_for_adb().await;
+    match adb_result {
+        Ok(_) => {
+            
+        }
+        Err(_e) => {
+           
+        }
+    }
+
     let confirmation = Confirm::with_theme(&theme)
         .with_prompt("Do you want to continue?")
         .interact()
         .unwrap();
-
+    
     if confirmation {
         println!("Looks like you want to continue");
     } else {
@@ -53,8 +62,13 @@ async fn setup_adbtools() -> Result<bool, anyhow::Error> {
         return Ok(false);
     };
     let client = reqwest::Client::new();
-    io::download_url(&client,"https://dl.google.com/android/repository/platform-tools-latest-darwin.zip", "adbtools.zip").await.unwrap();
 
+    let out_dir = current_dir()
+        .expect("Failed to get current working directory");
+
+    let downloaded_zip = io::download_url(&client,"https://dl.google.com/android/repository/platform-tools-latest-darwin.zip", "adbtools.zip").await.unwrap();
+
+    zip::unzip_file(downloaded_zip, &out_dir).await;
 
     Ok(true)
 }

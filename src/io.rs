@@ -5,7 +5,7 @@ use indicatif::{ProgressBar, ProgressStyle};
 use futures_util::StreamExt;
 use tokio::{fs::File, io::AsyncWriteExt};
 
-pub async fn download_url(client: &Client, url: &str, path: &str) -> Result<(), String> {
+pub async fn download_url(client: &Client, url: &str, path: &str) -> Result<String, String> {
     let spinner = ProgressBar::new_spinner();
     spinner.enable_steady_tick(Duration::from_millis(120));
     spinner.set_style(
@@ -64,6 +64,6 @@ pub async fn download_url(client: &Client, url: &str, path: &str) -> Result<(), 
         pb.set_position(downloaded);
     }
     pb.finish_with_message("downloaded");
-    Ok(())
-
+    Ok(path.to_string())
+    
 }

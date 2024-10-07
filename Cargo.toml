@@ -3,6 +3,10 @@ name = "quest2-deployer"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "quest2deployer"
+path = "src/lib.rs"
+
 [dependencies]
 anyhow = "1.0.89"
 console = "0.15.8"
@@ -13,3 +17,6 @@ reqwest = { version = "0.12.8", features = ["stream"] }
 strfmt = "0.2.4"
 tokio = { version = "1.40.0", features = ["full"]}
 tokio-util = "0.7.12"
+async_zip = { version = "0.0.17", features = ["full"] }
+sanitize-filename = "0.5.0"
+futures-lite = "2.3.0"
